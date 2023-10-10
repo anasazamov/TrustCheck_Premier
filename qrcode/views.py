@@ -26,4 +26,12 @@ class AllProductView(APIView):
     authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
-        def put()
+    def put(self, request, product_id):
+        
+        try:
+            product = Product.objects.all()
+            user = request.user
+        except Product.DoesNotExist:
+            return Response({'message': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+        
