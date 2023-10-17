@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from .models import Product
-from .serialazer import ProductSerializer
+from .serializer import ProductSerializer
 
 class ProductView(APIView):
     def get(self,request, product_id):

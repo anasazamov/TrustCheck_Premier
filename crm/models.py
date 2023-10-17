@@ -1,6 +1,7 @@
 from django.db import models
 from qrcode.models import Product
 from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 
@@ -10,11 +11,11 @@ class Activity(models.Model):
     discount = models.DecimalField(max_digits=2,decimal_places=1)
     description = models.TextField()
 
-class NewUser(models.Model):
+class NewUser(AbstractUser):
 
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
-    phone_number = models.IntegerField()
+    phone_number = models.IntegerField(unique=True)
 
 
 class CreateProduct(models.Model):
