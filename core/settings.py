@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "qrcode.apps.QrcodeConfig",
+    'crm.apps.CrmConfig',
     "rest_framework"
 ]
 

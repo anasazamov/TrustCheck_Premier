@@ -29,9 +29,14 @@ class AllProductView(APIView):
     def put(self, request, product_id):
         
         try:
-            product = Product.objects.all()
+            product = Product.objects.get(product_id)
             user = request.user
         except Product.DoesNotExist:
             return Response({'message': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        product.utilized = True
+        serialazer = ProductSerializer(product)
+
+        return Response(serialazer.data,status=status.HTTP_426_UPGRADE_REQUIRED)
         
         
