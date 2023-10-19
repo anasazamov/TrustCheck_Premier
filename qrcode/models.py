@@ -17,3 +17,7 @@ class Product(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     end_date = models.DateField()
     utilized = models.BooleanField(default=False)
+
+    def __str__(self)->str:
+
+        return f'Name: {self.name} ID: {self.pk}'

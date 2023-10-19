@@ -19,5 +19,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("qrcode/", include("qrcode.urls"))
+    path("qrcode/", include("qrcode.urls")),
+    path("userverification/",include("userverification.urls")),
+    path("crm/",include("crm.urls")),
 ]
