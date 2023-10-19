@@ -12,7 +12,6 @@ from .serializer import NewUserSerialazer
 class NewUserView(APIView):
 
     authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = [IsAuthenticated]
 
     def get(self,request: Request,pk=None):
         if pk:

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "qrcode.apps.QrcodeConfig",
     'crm.apps.CrmConfig',
     'userverification.apps.UserverificationConfig',
+     'rest_framework.authtoken',
     "rest_framework"
 ]
 

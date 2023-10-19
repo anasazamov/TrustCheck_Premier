@@ -35,7 +35,9 @@ class VerifyOTPAPI(APIView):
 
 
         phone_number = request.data.get('phone_number')
-        otp_code = request.data.get('otp_code')
+        otp_code: str = request.data.get('otp_code')
+        if otp_code.isalnum:
+            otp_code = str(otp_code)
 
         # Ma'lumotlar bazasidan foydalanuvchini topamiz, telefon raqam orqali
         try:
@@ -54,6 +56,7 @@ class VerifyOTPAPI(APIView):
             user_profile.otp_secret = ""
             # Tasdiqlash kodlari mos keladi
             token, created = Token.objects.get_or_create(user=user_profile)  # Token yaratish yoki olish
+            user_profile.otp_secret = ""
             return Response({'token': token.key}, status=status.HTTP_200_OK)
         else:
             # Tasdiqlash kodlari mos kelmaydi
