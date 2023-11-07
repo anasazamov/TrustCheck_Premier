@@ -6,6 +6,8 @@ from rest_framework.permissions import IsAuthenticated
 from .models import Product
 from .serializer import ProductSerializer
 
+#Avtaritzatsiyadan o'tmagan user lar uchun 
+
 class ProductView(APIView):
     def get(self,request, product_id):
         try:
@@ -14,14 +16,17 @@ class ProductView(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Product.DoesNotExist:
             return Response({'message': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
-        
+#Avtorizatsiya  
 class AllProductView(APIView):
-    def get(self,request, product_id):
+    def get(self,request, product_id=None):
+        
         try:
+
             product = Product.objects.all()
             serializer = ProductSerializer(product,many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Product.DoesNotExist:
+            
             return Response({'message': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
     authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [IsAuthenticated]

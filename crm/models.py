@@ -3,16 +3,11 @@ from qrcode.models import Product
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import AbstractUser, Group, Permission
+from userverification.models import UserProfile
 
-class NewUser(AbstractUser):
+class NewUser(models.Model):
     # Oldin ishlatilayotgan bog'lanishlarni o'chiramiz
-    groups = models.ManyToManyField(
-        Group,
-        verbose_name=('groups'),
-        blank=True,
-        related_name='user_groups',
-        help_text=('The groups this user belongs to. A user will get all permissions granted to each of their groups.'),
-    )
+    user = models.OneToOneField(to=UserProfile,on_delete=models.CASCADE)
     user_permissions = models.ManyToManyField(
         Permission,
         verbose_name=('user permissions'),
