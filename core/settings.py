@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "qrcode.apps.QrcodeConfig",
-    'chatapp.apps.ChatappConfig',
     'crm.apps.CrmConfig',
     'userverification.apps.UserverificationConfig',
     'rest_framework.authtoken',
