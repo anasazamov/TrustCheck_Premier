@@ -5,17 +5,6 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from userverification.models import UserProfile
 
-class NewUser(models.Model):
-    # Oldin ishlatilayotgan bog'lanishlarni o'chiramiz
-    user = models.OneToOneField(to=UserProfile,on_delete=models.CASCADE)
-    user_permissions = models.ManyToManyField(
-        Permission,
-        verbose_name=('user permissions'),
-        blank=True,
-        related_name='user_permissions',
-        help_text=('Specific permissions for this user.'),
-    )
-
 class Activity(models.Model):
 
     name = models.CharField(max_length=50)
