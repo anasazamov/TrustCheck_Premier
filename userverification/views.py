@@ -2,6 +2,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
+from .serializer import UserSerializer
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.request import Request
 from rest_framework.authtoken.models import Token
@@ -50,8 +52,9 @@ class VerifyOTPAPI(APIView):
             user_profile = UserProfile.objects.get(phone_number=phone_number)
         except UserProfile.DoesNotExist:
             return Response({'message': 'Noto\'g\'ri OTP kod yoki telefon raqam'})
-        
-        if not user_profile.otp_secret:
+        second = 301
+        if user_profile.get_time_difference() > second:
+            user_profile.delete()
             return Response({'message': 'OTP kod vaqti tugadi'})
 
         # Tasdiqlash kodi yaratish
@@ -59,10 +62,10 @@ class VerifyOTPAPI(APIView):
         generated_code = totp
 
         if otp_code == generated_code:
-            
+    
             phone_number = user_profile.phone_number
             try:
-                user = User.objects.create(username=phone_number,password="password")
+                user = User.objects.create(username=phone_number,password=make_password("password"))
             except Exception as e:
                 return Response(UserProfileSerializer.errors,status=status.HTTP_400_BAD_REQUEST)
             # Tasdiqlash kodlari mos keladi
@@ -85,7 +88,8 @@ class UserProfilePut(APIView):
         except User.DoesNotExist:
             return Response({"message":"Does not exist user"},status=status.HTTP_401_UNAUTHORIZED)
         
-        serializer = ""
+        serializer = UserSerializer(user)
+        return Response(serializer.data,status.HTTP_200_OK)
 
     def put(self,request: Request):
 
@@ -94,40 +98,59 @@ class UserProfilePut(APIView):
             data = request.data
         except ObjectDoesNotExist:
             return Response({"messaege":"Bad request"},status=status.HTTP_400_BAD_REQUEST)
-        if "first_name" in data.keys():  
+        
+        #try:
+        if "first_name" in data.keys() and len(data.keys()) == 1:  
             
             user.first_name = data["first_name"]
             user.save()
-            serializer = UserProfileSerializer(user)
-
-            return Response(serializer.data,status=status.HTTP_200_OK)
-        
-        elif "last_name" in data.keys():  
-            
+                
+        elif "last_name" in data.keys() and len(data.keys()) == 1:  
+                
             user.last_name = data["last_name"]
             user.save()
-            serializer = UserProfileSerializer(user)
-
-            return Response(serializer.data,status=status.HTTP_200_OK)
-        
-        elif "phone_number" in data.keys():  
-            
-            user.phone_number = data["phone_number"]
-            user.save()
-            serializer = UserProfileSerializer(user)
-
-            return Response(serializer.data,status=status.HTTP_200_OK)
-        
-        elif ["phone_number","first_name","last_name"] == data.keys():  
-            
+                        
+        elif "first_name" in data.keys() and "last_name" in data.keys():  
+                
             user.first_name = data["first_name"]
             user.last_name = data["last_name"]
-            user.phone_number = data["phone_number"]
             user.save()
-        serializer = UserProfileSerializer(user)
 
-        return Response({serializer.data},status=status.HTTP_200_OK)
+        elif "phone_number" in data.keys():
+            otp = randint(100000,999999)
+            update = UserProfile.objects.create(phone_number=data["phone_number"],otp_secret=otp)
+            update.save()
+
+            return Response({"message":f"Otp kod muvaqqiyatli yuborildi {otp}"})
         
-        # else:
+        else:
+            return Response({"message" : "Bad request"},status=status.HTTP_400_BAD_REQUEST)
 
-        #     return Response()
+        serializer = UserSerializer(user)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
+    def post(self,request: Request):
+
+        try:
+            user = request.user
+            data = request.data
+            userprofile = UserProfile.objects.get(phone_number=data["phone_number"])
+        except:
+            return Response({"message":"Bad requeest"},status=status.HTTP_400_BAD_REQUEST)
+
+        second = 301
+        if userprofile.get_time_difference() > second:
+            userprofile.delete()
+            return Response({'message': 'OTP kod vaqti tugadi'})
+
+        if userprofile.otp_secret == data["otp_code"]:
+            user.username = data["phone_number"]
+            user.save()
+            userprofile.delete()
+            serializer = UserSerializer(user)
+            return Response(serializer.data,status=status.HTTP_200_OK)
+
+        return Response({"message":"otp_code mos kelmadi"},status=status.HTTP_400_BAD_REQUEST)
+        
+        
+    
