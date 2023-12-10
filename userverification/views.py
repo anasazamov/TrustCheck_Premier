@@ -8,6 +8,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.request import Request
 from rest_framework.authtoken.models import Token
 from rest_framework import status
+from twilio_sms_send import send_sms
 
 from .models import UserProfile
 from .serializer import UserProfileSerializer
@@ -34,8 +35,8 @@ class SendOTPAPI(APIView):
         otp_code = otp_secret
 
         # OTP kodi yuborish loyihasi (masalan, SMS yoki email orqali yuborish)
-
-        return Response({'message': f'OTP kodi muvaffaqiyatli yuborildi: {otp_code}'}, status=status.HTTP_200_OK)
+        send_sms(phone_number,otp_code)
+        return Response({'message': f'OTP kodi muvaffaqiyatli yuborildi'}, status=status.HTTP_200_OK)
 
 
 class VerifyOTPAPI(APIView):
