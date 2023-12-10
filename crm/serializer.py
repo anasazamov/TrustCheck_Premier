@@ -1,12 +1,26 @@
 from rest_framework import serializers
+from qrcode.models import Product
 from .models import *
 
-class NewUserSerialazer(serializers.ModelSerializer):
+class ProductSerializer(serializers.ModelSerializer):
     class Meta:
-        model = NewUser
+        model = Product
         fields = "__all__"
 
-class TokenSerializer(serializers.Serializer):
+class CreateProductSerializer(serializers.ModelSerializer):
+    product = ProductSerializer()  # Agar Product modeliga oid bo'lsa
+    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
 
-    token = serializers.CharField(max_length=255)
+    class Meta:
+        model = CreateProduct
+        fields = ['id', 'product', 'user']
+
+class UtilzedProductSerializer(serializers.ModelSerializer):
+    product = ProductSerializer()  # Agar Product modeliga oid bo'lsa
+    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+
+    class Meta:
+        model = UtilzedProduct
+        fields = ['id', 'product', 'user']
+
 
