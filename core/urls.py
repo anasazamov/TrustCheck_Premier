@@ -21,5 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("qrcode/", include("qrcode.urls")),
     path("userverification/",include("userverification.urls")),
-    path("crm/",include("crm.urls")),
+    path("api/",include("crm.urls")),
 ]
