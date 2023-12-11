@@ -195,13 +195,13 @@
     "id": 1,
     "first_name": "John",
     "last_name": "Doe",
-    "username": "john_doe"
+    "phone_number": "+9989912345678"
   },
   {
     "id": 2,
     "first_name": "Jane",
     "last_name": "Doe",
-    "username": "jane_doe"
+    "phone_number": "+998997456321"
   },
   // ...
 ]
