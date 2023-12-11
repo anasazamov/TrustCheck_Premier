@@ -4,12 +4,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Django Loyihasi Dokumentatsiyasi</title>
+  
 </head>
 
 <body>
+<h1>Django Loyihasi Dokumentatsiyasi</h1>
 
-  <h1>Django Loyihasi Dokumentatsiyasi</h1>
+  <h2>Django Loyihasi Dokumentatsiyasi</h2>
 
   <p>
     Bu dokumentatsiya <a href="https://www.djangoproject.com/" target="_blank">Django</a> loyihangizni tushunish va uni frontend qismiga ulash uchun muhim ma'lumotlar beradi.
