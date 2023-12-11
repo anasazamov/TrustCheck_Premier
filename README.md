@@ -80,6 +80,7 @@
   "name": "New Product",
   "price": 24.99,
   "description": "New Description",
+  "end_date":2024-12-01
   "how_many": 3
 }
   </code></pre>
