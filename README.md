@@ -10,6 +10,8 @@
 <body>
 <h1>Django Loyihasi Dokumentatsiyasi</h1>
 
+<h3>BASE_URL =  trustcheck.pythonanywhere.com</h3>
+
   <h2>Django Loyihasi Dokumentatsiyasi</h2>
 
   <p>
