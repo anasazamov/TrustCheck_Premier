@@ -7,11 +7,11 @@ from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
 from userverification.serializer import UserSerializer
 from .serializer import *
-from md5_hash import md5_hash
+from md5_hash import sha256_hash
 from .models import *
 from qrcode.models import Product
 
-class CreateProduct(APIView):
+class CreateProductAPI(APIView):
 
     authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
@@ -42,17 +42,17 @@ class CreateProduct(APIView):
         name = data.get("name")
         price = data.get("price")
         description = data.get("description")
-        product_seria_num = md5_hash(Product.objects.last())
         end_date = data.get("end_date")
         how_many = data.get("how_many")
         created_products = []
         
         for i in range(0,how_many):
+            product_seria_num = sha256_hash(int(Product.objects.last())+1)
             product = Product.objects.create(name=name,price=price,description=description,product_seria_num=product_seria_num,end_date=end_date)
             create_at = CreateProduct.objects.create(user=user,product=product)
             created_products.append(product)
 
-        serializer = ProductSerializer(product,many=True)
+        serializer = ProductSerializer(created_products,many=True)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
     def delete(self,request: Request,pk=False):
