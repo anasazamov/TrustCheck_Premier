@@ -92,6 +92,6 @@ class GetAllUser(APIView):
 
     def get(self):
 
-        user = User.objects.all()
+        user = User.objects.filter(username__startswith='+')
         serializer = UserSerializer(user,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
