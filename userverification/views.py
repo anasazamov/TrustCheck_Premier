@@ -53,20 +53,20 @@ class VerifyOTPAPI(APIView):
             user_profile = UserProfile.objects.get(phone_number=phone_number)
         except UserProfile.DoesNotExist:
             return Response({'message': 'Noto\'g\'ri OTP kod yoki telefon raqam'})
-        second = 301
+        second = 3001
         if user_profile.get_time_difference() > second:
             user_profile.delete()
             return Response({'message': 'OTP kod vaqti tugadi'})
 
         # Tasdiqlash kodi yaratish
-        totp = (user_profile.otp_secret)
+        totp = user_profile.otp_secret
         generated_code = totp
 
         if otp_code == generated_code:
     
             phone_number = user_profile.phone_number
             try:
-                user = User.objects.create(username=phone_number,password=make_password("password"))
+                user,created = User.objects.get_or_create(username=phone_number,password=make_password("password"))
             except Exception as e:
                 return Response(UserProfileSerializer.errors,status=status.HTTP_400_BAD_REQUEST)
             # Tasdiqlash kodlari mos keladi
