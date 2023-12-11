@@ -1,93 +1,211 @@
-# Loyiha: Corporate CRM
+<!DOCTYPE html>
+<html lang="en">
 
-## Komponentlar
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Django Loyihasi Dokumentatsiyasi</title>
+</head>
 
-### Korxona (core app)
+<body>
 
-**Settings:** [settings.py](core/settings.py)
+  <h1>Django Loyihasi Dokumentatsiyasi</h1>
 
-### URLs
+  <p>
+    Bu dokumentatsiya <a href="https://www.djangoproject.com/" target="_blank">Django</a> loyihangizni tushunish va uni frontend qismiga ulash uchun muhim ma'lumotlar beradi.
+  </p>
 
-**Asosiy URLs:** [urls.py](core/urls.py)
+  <h2>Komponentlar</h2>
 
-**Qrcode URLs:** [urls.py](qrcode/urls.py)
+  <p>
+    Bu qismda loyihada qo'llangan modellar, serializers, views, hamda boshqa komponentlar haqida ko'rsatmalar beriladi.
+  </p>
 
-**CRM URLs:** [urls.py](crm/urls.py)
+  <h3>CreateProduct API</h3>
 
-**Foydalanuvchi tasdiqlash URLs:** [urls.py](userverification/urls.py)
+  <h4>Get Products</h4>
 
-### Modellar
+  <ul>
+    <li><strong>Endpoint:</strong> <code>/api/create-product/</code></li>
+    <li><strong>Method:</strong> GET</li>
+    <li><strong>Permissions:</strong> Session Authentication, Basic Authentication</li>
+  </ul>
 
-**Qrcode Modellar:**
-- [Category](qrcode/models.py)
-- [Product](qrcode/models.py)
+  <h5>Response</h5>
 
-**CRM Modellar:**
-- [Activity](crm/models.py)
-- [CreateProduct](crm/models.py)
-- [UtilzedProduct](crm/models.py)
+  <ul>
+    <li><strong>Success Code:</strong> 200 OK</li>
+    <li><strong>Success Response:</strong></li>
+  </ul>
 
-**Foydalanuvchi tasdiqlash Modellari:**
-- [UserProfile](userverification/models.py)
+  <pre><code>
+[
+  {
+    "id": 1,
+    "name": "Product 1",
+    "price": 19.99,
+    "description": "Description 1",
+    // ...
+  },
+  {
+    "id": 2,
+    "name": "Product 2",
+    "price": 29.99,
+    "description": "Description 2",
+    // ...
+  },
+  // ...
+]
+  </code></pre>
 
-### Serializatorlar
+  <h4>Create Product</h4>
 
-**Qrcode Serializatorlar:**
-- [ProductSerializer](qrcode/serializer.py)
+  <ul>
+    <li><strong>Endpoint:</strong> <code>/api/create-product/</code></li>
+    <li><strong>Method:</strong> POST</li>
+    <li><strong>Permissions:</strong> Session Authentication, Basic Authentication</li>
+  </ul>
 
-**CRM Serializatorlar:**
-- [ProductSerializer](crm/serializer.py)
-- [CreateProductSerializer](crm/serializer.py)
-- [UtilzedProductSerializer](crm/serializer.py)
+  <h5>Request</h5>
 
-**Foydalanuvchi tasdiqlash Serializatorlari:**
-- [UserProfileSerializer](userverification/serializer.py)
-- [UserSerializer](userverification/serializer.py)
+  <ul>
+    <li><strong>Data:</strong></li>
+  </ul>
 
-### Views
+  <pre><code>
+{
+  "name": "New Product",
+  "price": 24.99,
+  "description": "New Description",
+  "how_many": 3
+}
+  </code></pre>
 
-**Qrcode Views:**
-- [ProductView](qrcode/views.py)
-- [UserProductView](qrcode/views.py)
+  <h5>Response</h5>
 
-**CRM Views:**
-- [CreateProduct](crm/views.py)
-- [UtilizedProduct](crm/views.py)
-- [CreateProductTable](crm/views.py)
+  <ul>
+    <li><strong>Success Code:</strong> 201 Created</li>
+    <li><strong>Success Response:</strong></li>
+  </ul>
 
-**Foydalanuvchi tasdiqlash Views:**
-- [SendOTPAPI](userverification/views.py)
-- [VerifyOTPAPI](userverification/views.py)
-- [UserProfilePut](userverification/views.py)
+  <pre><code>
+[
+  {
+    "id": 3,
+    "name": "New Product",
+    "price": 24.99,
+    "description": "New Description",
+    // ...
+  },
+  // ...
+]
+  </code></pre>
 
-### SMS Yuborish Moduli
+  <h4>Delete Product</h4>
 
-**Eskiz SMS Yuborish Moduli:**
-- [eskiz_sms_send](eskiz_sms_send.py)
+  <ul>
+    <li><strong>Endpoint:</strong> <code>/api/create-product/&lt;int:pk&gt;/</code></li>
+    <li><strong>Method:</strong> DELETE</li>
+    <li><strong>Permissions:</strong> Session Authentication, Basic Authentication</li>
+  </ul>
 
-### Hashlash Moduli
+  <h5>Response</h5>
 
-**MD5 Hashlash Moduli:**
-- [md5_hash](md5_hash.py)
+  <ul>
+    <li><strong>Success Code:</strong> 204 No Content</li>
+    <li><strong>Success Response:</strong></li>
+  </ul>
 
-## O'rnatish
+  <pre><code>
+{
+  "id": 3,
+  "name": "New Product",
+  "price": 24.99,
+  "description": "New Description",
+  // ...
+}
+  </code></pre>
 
-1. Python o'rnatilganligini tekshiring.
-2. Virtual muhitni yaratish: `python -m venv venv`
-3. Muhitni faollashtirish: 
-   - Windows uchun: `venv\Scripts\activate`
-   - Linux / macOS uchun: `source venv/bin/activate`
-4. Loyihaning joylashuvi bo'yicha o'ting: `cd joylashuvingiz`
-5. Loyiha kerakli kutubxonalarni o'rnatish uchun: `pip install -r requirements.txt`
-6. Migrations va loyiha ishga tushirish: 
-   - `python manage.py makemigrations`
-   - `python manage.py migrate`
-7. Loyiha serverini ishga tushirish: `python manage.py runserver`
+  <h3>Utilized Product API</h3>
 
-Loyiha `http://127.0.0.1:8000/` manzilida ishlaydi.
+  <h4>Get Utilized Products</h4>
 
-## Murojaat
+  <ul>
+    <li><strong>Endpoint:</strong> <code>/api/utilized-product/</code></li>
+    <li><strong>Method:</strong> GET</li>
+    <li><strong>Permissions:</strong> Session Authentication, Basic Authentication</li>
+  </ul>
 
-Agar savollar yoki takliflar bo'lsa, iltimos, [Menga](https://t.me/U1_UXdesigner)ga murojaat qiling.
+  <h5>Response</h5>
 
-Rahmat!
+  <ul>
+    <li><strong>Success Code:</strong> 200 OK</li>
+    <li><strong>Success Response:</strong></li>
+  </ul>
+
+  <pre><code>
+[
+  {
+    "id": 1,
+    "product": {
+      "id": 1,
+      "name": "Product Name 1",
+      "price": 19.99,
+      "description": "Product Description 1",
+      // ...
+    },
+    "user": 1
+  },
+  {
+    "id": 2,
+    "product": {
+      "id": 2,
+      "name": "Product Name 2",
+      "price": 29.99,
+      "description": "Product Description 2",
+      // ...
+    },
+    "user": 1
+  },
+  // ...
+]
+  </code></pre>
+
+  <h3>Get All Users API</h3>
+
+  <h4>Get All Users</h4>
+
+  <ul>
+    <li><strong>Endpoint:</strong> <code>/api/get-all-users/</code></li>
+    <li><strong>Method:</strong> GET</li>
+    <li><strong>Permissions:</strong> Session Authentication, Basic Authentication</li>
+  </ul>
+
+  <h5>Response</h5>
+
+  <ul>
+    <li><strong>Success Code:</strong> 200 OK</li>
+    <li><strong>Success Response:</strong></li>
+  </ul>
+
+  <pre><code>
+[
+  {
+    "id": 1,
+    "first_name": "John",
+    "last_name": "Doe",
+    "username": "john_doe"
+  },
+  {
+    "id": 2,
+    "first_name": "Jane",
+    "last_name": "Doe",
+    "username": "jane_doe"
+  },
+  // ...
+]
+  </code></pre>
+
+</body>
+
+</html>
