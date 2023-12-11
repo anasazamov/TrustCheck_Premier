@@ -3,6 +3,8 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from django.contrib.auth.models import User
+from userverification.serializer import UserSerializer
 from .serializer import *
 from md5_hash import md5_hash
 from .models import *
@@ -83,3 +85,13 @@ class CreateProductTable(APIView):
         serializer = CreateProductSerializer(utilized,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
     
+class GetAllUser(APIView):
+
+    permission_classes = [SessionAuthentication, BasicAuthentication]
+
+
+    def get(self):
+
+        user = User.objects.all()
+        serializer = UserSerializer(user,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
