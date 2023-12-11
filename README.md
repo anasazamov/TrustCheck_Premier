@@ -88,6 +88,6 @@ Loyiha `http://127.0.0.1:8000/` manzilida ishlaydi.
 
 ## Murojaat
 
-Agar savollar yoki takliflar bo'lsa, iltimos, [GitHub repozitoriyasi](https://github.com/sizdil/corcrm)ga murojaat qiling.
+Agar savollar yoki takliflar bo'lsa, iltimos, [Menga](https://t.me/U1_UXdesigner)ga murojaat qiling.
 
 Rahmat!
