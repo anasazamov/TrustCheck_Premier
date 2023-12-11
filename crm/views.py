@@ -48,7 +48,7 @@ class CreateProductAPI(APIView):
         create_for_CreateProduct = []
         
         for i in range(0,how_many):
-            product_seria_num = sha256_hash(int(Product.objects.last())+1)
+            product_seria_num = sha256_hash(int(Product.objects.last().pk)+1)
             product = Product(name=name,price=price,description=description,product_seria_num=product_seria_num,end_date=end_date)
             create_at = CreateProduct(user=user,product=product)
             created_products.append(product)
