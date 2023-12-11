@@ -2,7 +2,8 @@ from rest_framework import status
 from rest_framework.request import Request 
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.authentication import BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
 from userverification.serializer import UserSerializer
 from .serializer import *
@@ -12,8 +13,8 @@ from qrcode.models import Product
 
 class CreateProduct(APIView):
 
-    permission_classes = [SessionAuthentication, BasicAuthentication]
-
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
     def get(self, request: Request, pk=False):
 
         if pk:
@@ -68,8 +69,8 @@ class CreateProduct(APIView):
 
 class UtilizedProduct(APIView):
 
-    permission_classes = [SessionAuthentication, BasicAuthentication]
-
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
     def get(self,request: Request):
 
         utilized = UtilzedProduct.objects.all()
@@ -78,7 +79,8 @@ class UtilizedProduct(APIView):
     
 class CreateProductTable(APIView):
 
-    permission_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get(self,request: Request):
 
@@ -88,8 +90,8 @@ class CreateProductTable(APIView):
     
 class GetAllUser(APIView):
 
-    permission_classes = [SessionAuthentication, BasicAuthentication]
-
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get(self):
 
