@@ -42,11 +42,12 @@ class CreateProduct(APIView):
         price = data.get("price")
         description = data.get("description")
         product_seria_num = md5_hash(Product.objects.last())
+        end_date = data.get("end_date")
         how_many = data.get("how_many")
         created_products = []
         
         for i in range(0,how_many):
-            product = Product.objects.create(name=name,price=price,description=description,product_seria_num=product_seria_num)
+            product = Product.objects.create(name=name,price=price,description=description,product_seria_num=product_seria_num,end_date=end_date)
             create_at = CreateProduct.objects.create(user=user,product=product)
             created_products.append(product)
 
