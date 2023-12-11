@@ -45,14 +45,19 @@ class CreateProductAPI(APIView):
         end_date = data.get("end_date")
         how_many = data.get("how_many")
         created_products = []
+        create_for_CreateProduct = []
         
         for i in range(0,how_many):
             product_seria_num = sha256_hash(int(Product.objects.last())+1)
-            product = Product.objects.create(name=name,price=price,description=description,product_seria_num=product_seria_num,end_date=end_date)
-            create_at = CreateProduct.objects.create(user=user,product=product)
+            product = Product(name=name,price=price,description=description,product_seria_num=product_seria_num,end_date=end_date)
+            create_at = CreateProduct(user=user,product=product)
             created_products.append(product)
+            create_for_CreateProduct.append(create_at)
 
-        serializer = ProductSerializer(created_products,many=True)
+        with_bulk_product = Product.objects.bulk_create(created_products)
+        CreateProduct.objects.bulk_create(create_for_CreateProduct)
+
+        serializer = ProductSerializer(with_bulk_product,many=True)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
     def delete(self,request: Request,pk=False):
