@@ -132,15 +132,3 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# Twilio integration
-
-TWILIO_ACCOUNT_SID = 'AC6e2d0c93b40c8a02c9f82246d6f10b4e'
-TWILIO_AUTH_TOKEN = 'a55b0c1081da257d592dc77320fa9197'
-
-DJANGO_TWILIO_FORGERY_PROTECTION = True
-DJANGO_TWILIO_BLACKLIST_CHECK = True
-TWILIO_PHONE_NUMBER = "+12029494416"
-
-
-
