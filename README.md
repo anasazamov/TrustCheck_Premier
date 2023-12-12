@@ -210,6 +210,42 @@
 ]
   </code></pre>
 
+
+  <h3>Get Create products by User Table</h3>
+
+  <h4>Get All CreateProduct</h4>
+
+  <ul>
+    <li><strong>Endpoint:</strong> <code>api/create-product-table/</code></li>
+    <li><strong>Method:</strong> GET</li>
+    <li><strong>Permissions:</strong> Session Authentication, Basic Authentication</li>
+  </ul>
+
+  <h5>Response</h5>
+
+  <ul>
+    <li><strong>Success Code:</strong> 200 OK</li>
+    <li><strong>Success Response:</strong></li>
+  </ul>
+
+  <pre><code>
+[
+  {
+    "id": 1,
+    "first_name": "John",
+    "last_name": "Doe",
+    "phone_number": "+9989912345678"
+  },
+  {
+    "id": 2,
+    "first_name": "Jane",
+    "last_name": "Doe",
+    "phone_number": "+998997456321"
+  },
+  // ...
+]
+  </code></pre>
+
 </body>
 
 </html>
