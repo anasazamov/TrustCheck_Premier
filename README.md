@@ -230,19 +230,34 @@
 
   <pre><code>
 [
-  {
-    "id": 1,
-    "first_name": "John",
-    "last_name": "Doe",
-    "phone_number": "+9989912345678"
-  },
-  {
-    "id": 2,
-    "first_name": "Jane",
-    "last_name": "Doe",
-    "phone_number": "+998997456321"
-  },
-  // ...
+    {
+        "id": 6103,
+        "product": {
+            "id": 6086,
+            "name": "1",
+            "product_seria_num": "1",
+            "price": "1.00",
+            "description": "1",
+            "created": "2023-12-12T04:31:58.643835+05:00",
+            "end_date": "2023-12-12",
+            "utilized": true
+        },
+        "user": {
+            "id": 2,
+            "password": "pbkdf2_sha256$600000$M6fKbQrfK6kp8y6eW5hRiG$ez+9USQ3lab0wBNZKPuCLAp4+l7QcAZWWf2Hq5plRic=",
+            "last_login": "2023-12-11T23:40:16.822206+05:00",
+            "is_superuser": true,
+            "username": "admin",
+            "first_name": "",
+            "last_name": "",
+            "email": "",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2023-11-28T05:32:14.898669+05:00",
+            "groups": [],
+            "user_permissions": []
+        }
+    }
 ]
   </code></pre>
 
