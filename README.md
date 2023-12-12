@@ -261,6 +261,36 @@
 ]
   </code></pre>
 
+  <h3>Get info of product</h3>
+
+  <h4>Get Product</h4>
+
+  <ul>
+    <li><strong>Endpoint:</strong> <code>crm/products/<str:product_seria_num></code></li>
+    <li><strong>Method:</strong> GET</li>
+  </ul>
+
+  <h5>Response</h5>
+
+  <ul>
+    <li><strong>Success Code:</strong> 200 OK</li>
+    <li><strong>Success Response:</strong></li>
+  </ul>
+
+  <pre><code>
+    {
+            "id": 6086,
+            "name": "1",
+            "product_seria_num": "1",
+            "price": "1.00",
+            "description": "1",
+            "created": "2023-12-12T04:31:58.643835+05:00",
+            "end_date": "2023-12-12",
+            "utilized": true
+    }
+
+  </code></pre>
+
 </body>
 
 </html>
