@@ -6,6 +6,7 @@ from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
 from userverification.serializer import UserSerializer
+from django.utils import timezone
 from .serializer import *
 from md5_hash import sha256_hash
 from .models import *
@@ -48,16 +49,17 @@ class CreateProductAPI(APIView):
         create_for_CreateProduct = []
         
         for i in range(0,how_many):
-            product_seria_num = sha256_hash(int(Product.objects.last().pk)+1)
+            product_seria_num = sha256_hash(f"{int(timezone.now().timestamp())}".encode('utf-8'))
             product = Product(name=name,price=price,description=description,product_seria_num=product_seria_num,end_date=end_date)
+            product.save(force_insert=True)
             create_at = CreateProduct(user=user,product=product)
+            create_at.save(force_insert=True)
             created_products.append(product)
             create_for_CreateProduct.append(create_at)
 
-        with_bulk_product = Product.objects.bulk_create(created_products)
-        CreateProduct.objects.bulk_create(create_for_CreateProduct)
+       
 
-        serializer = ProductSerializer(with_bulk_product,many=True)
+        serializer = ProductSerializer(created_products,many=True)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
     def delete(self,request: Request,pk=False):

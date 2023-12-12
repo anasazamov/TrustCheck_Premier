@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils import timezone
+from md5_hash import sha256_hash
 
 # Create your models here.
 
@@ -16,6 +18,12 @@ class Product(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     end_date = models.DateField()
     utilized = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+        # Agar product_seria_num bo'sh bo'lsa, uni to'ldirish
+        if not self.product_seria_num:
+            self.product_seria_num = sha256_hash(f"{int(timezone.now().timestamp())}".encode('utf-8'))
+        super().save(*args, **kwargs)
 
     def __str__(self)->str:
 
