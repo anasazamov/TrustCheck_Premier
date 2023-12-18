@@ -42,23 +42,34 @@
   </ul>
 
   <pre><code>
-[
-  {
-    "id": 1,
-    "name": "Product 1",
-    "price": 19.99,
-    "description": "Description 1",
-    // ...
-  },
-  {
-    "id": 2,
-    "name": "Product 2",
-    "price": 29.99,
-    "description": "Description 2",
-    // ...
-  },
-  // ...
-]
+{
+    "count": 3800,
+    "next": "http://127.0.0.1:8000/api/create-product/?page=2",
+    "previous": null,
+    "results": [
+        {
+            "id": 167967,
+            "name": "1",
+            "product_seria_num": "c804dce280cf1f12b7fe4f5a79a19700e0ec5d187b9601ee21dbfd30eb802403",
+            "price": "1.00",
+            "description": "1",
+            "created": "2023-12-17T11:02:48.166186+05:00",
+            "end_date": "2023-12-12",
+            "utilized": false
+        },
+        {
+            "id": 167968,
+            "name": "1",
+            "product_seria_num": "9ae3b4a1f0cadbfcc88e3a1c6f64abd258a64f74b915730a0c0c7e560219b8aa",
+            "price": "1.00",
+            "description": "1",
+            "created": "2023-12-17T11:02:48.167186+05:00",
+            "end_date": "2023-12-12",
+            "utilized": false
+        },
+       //...
+    ]
+}
   </code></pre>
 
   <h4>Create Product</h4>
@@ -88,21 +99,29 @@
   <h5>Response</h5>
 
   <ul>
-    <li><strong>Success Code:</strong> 201 Created</li>
+    <li><strong>Success Code:</strong> 200 OK</li>
     <li><strong>Success Response:</strong></li>
   </ul>
 
   <pre><code>
-[
-  {
-    "id": 3,
-    "name": "New Product",
-    "price": 24.99,
-    "description": "New Description",
-    // ...
-  },
-  // ...
-]
+{
+    "count": 300,
+    "next": "http://127.0.0.1:8000/api/create-product/?page=2",
+    "previous": null,
+    "results": [
+        {
+            "id": 171770,
+            "name": "1",
+            "product_seria_num": "f2b9f8552f768e1c240b316b31fe830239c4869ea26a4a47f6795d1b0d9b800f",
+            "price": "1.00",
+            "description": "1",
+            "created": "2023-12-18T21:26:52.695904+05:00",
+            "end_date": "2023-12-12",
+            "utilized": false
+        },
+        //...
+    ]
+}
   </code></pre>
 
   <h4>Delete Product</h4>
@@ -148,6 +167,11 @@
   </ul>
 
   <pre><code>
+{
+    "count": 0,
+    "next": null,
+    "previous": null,
+    "results":
 [
   {
     "id": 1,
@@ -173,6 +197,7 @@
   },
   // ...
 ]
+}
   </code></pre>
 
   <h3>Get All Users API</h3>
@@ -193,21 +218,44 @@
   </ul>
 
   <pre><code>
-[
-  {
-    "id": 1,
-    "first_name": "John",
-    "last_name": "Doe",
-    "phone_number": "+9989912345678"
-  },
-  {
-    "id": 2,
-    "first_name": "Jane",
-    "last_name": "Doe",
-    "phone_number": "+998997456321"
-  },
-  // ...
-]
+{
+    "count": 2,
+    "next": null,
+    "previous": null,
+    "results": [
+        {
+            "id": 1,
+            "password": "pbkdf2_sha256$600000$uraQHYDDX1A5UlpciZWCpq$2mpjqC/4Bxk1NDeT3VO9I1wzodTNqvW1ZTkywgSoln8=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "+998991234567",
+            "first_name": "Anas",
+            "last_name": "Azamov",
+            "email": "",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2023-11-28T05:26:16.752801+05:00",
+            "groups": [],
+            "user_permissions": []
+        },
+        {
+            "id": 3,
+            "password": "pbkdf2_sha256$600000$NL5wLStKjmrUpgqmN9hCRR$34Fjl+YUKNoYy6Fdx+x226TbKeZXRXGRpIuGXKjZVmY=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "+998330751735",
+            "first_name": "",
+            "last_name": "",
+            "email": "",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2023-12-11T19:53:42.833150+05:00",
+            "groups": [],
+            "user_permissions": []
+        }
+    ]
+    // ...
+}
   </code></pre>
 
 
@@ -229,6 +277,12 @@
   </ul>
 
   <pre><code>
+
+{
+    "count": 4103,
+    "next": "http://127.0.0.1:8000/api/create-product-table/?page=2",
+    "previous": null,
+    "results":
 [
     {
         "id": 6103,
@@ -258,7 +312,9 @@
             "user_permissions": []
         }
     }
+    // ...
 ]
+}
   </code></pre>
 
   <h3>Get info of product</h3>

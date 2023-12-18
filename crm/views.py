@@ -3,6 +3,7 @@ from rest_framework import status
 from rest_framework.request import Request 
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
@@ -18,8 +19,10 @@ class CreateProductAPI(APIView):
 
     authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
+    
     def get(self, request: Request, pk=False):
-
+        paginator = PageNumberPagination()
+        paginator.page_size = 100
         if pk:
             try:
                 product: Product = Product.objects.get(pk=pk)
@@ -31,11 +34,14 @@ class CreateProductAPI(APIView):
         
         else:
             products = Product.objects.all()
-            serializer = ProductSerializer(products,many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            result_page = paginator.paginate_queryset(products,request)
+            serializer = ProductSerializer(result_page,many=True)
+            return paginator.get_paginated_response(serializer.data)
         
     @transaction.atomic
     def post(self, request: Request):
+        paginator = PageNumberPagination()
+        paginator.page_size = 100
         try:
             user: User = request.user
             data = request.data
@@ -50,7 +56,7 @@ class CreateProductAPI(APIView):
         created_products = []
 
         # Generate serial numbers for all products outside the loop
-        product_serial_numbers = [sha256_hash(str(i).encode('utf-8')) for i in range(Product.objects.count() + 1, Product.objects.count() + how_many + 1)]
+        product_serial_numbers = [sha256_hash(sha256_hash(sha256_hash(str(i).encode('utf-8')))) for i in range(Product.objects.count() + 1, Product.objects.count() + how_many + 1)]
 
         with transaction.atomic():
             products_to_create = [
@@ -72,9 +78,10 @@ class CreateProductAPI(APIView):
             ]
 
             CreateProduct.objects.bulk_create(create_for_CreateProduct)
-
-        serializer = ProductSerializer(created_products, many=True)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)    
+        result_page = paginator.paginate_queryset(created_products,request)
+        serializer = ProductSerializer(result_page, many=True)
+        return paginator.get_paginated_response(serializer.data)
+        
     def delete(self,request: Request,pk=False):
 
         if pk:
@@ -92,10 +99,12 @@ class UtilizedProduct(APIView):
     authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
     def get(self,request: Request):
-
+        paginator = PageNumberPagination()
+        paginator.page_size = 100
         utilized = UtilzedProduct.objects.all()
-        serializer = UtilzedProductSerializer(utilized,many=True)
-        return Response(serializer.data,status=status.HTTP_200_OK)
+        result_page = paginator.paginate_queryset(utilized,request)
+        serializer = UtilzedProductSerializer(result_page,many=True)
+        return paginator.get_paginated_response(serializer.data)
     
 class CreateProductTable(APIView):
 
@@ -103,18 +112,22 @@ class CreateProductTable(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self,request: Request):
-
-        utilized = CreateProduct.objects.all()
-        serializer = CreateProductSerializer(utilized,many=True)
-        return Response(serializer.data,status=status.HTTP_200_OK)
+        paginator = PageNumberPagination()
+        paginator.page_size = 100
+        created_product = CreateProduct.objects.all()
+        result_page = paginator.paginate_queryset(created_product,request)
+        serializer = CreateProductSerializer(result_page,many=True)
+        return paginator.get_paginated_response(serializer.data)
     
 class GetAllUser(APIView):
 
     authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def get(self):
-
+    def get(self,request):
+        paginator = PageNumberPagination()
+        paginator.page_size = 100
         user = User.objects.filter(username__startswith='+')
-        serializer = UserSerializer(user,many=True)
-        return Response(serializer.data,status=status.HTTP_200_OK)
+        result_page = paginator.paginate_queryset(user,request)
+        serializer = UserSerializer(result_page,many=True)
+        return paginator.get_paginated_response(serializer.data)

@@ -17,6 +17,7 @@ from random import randint
 
 class SendOTPAPI(APIView):
     def post(self, request):
+        
         phone_number = request.data.get('phone_number')
         user_profile, created = UserProfile.objects.get_or_create(phone_number=phone_number)
 
@@ -43,6 +44,7 @@ class VerifyOTPAPI(APIView):
 
     def post(self, request):
 
+        
         phone_number = request.data.get('phone_number')
         otp_code: str = request.data.get('otp_code')
         if otp_code.isalnum():
@@ -83,7 +85,6 @@ class UserProfilePut(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self,request:Request):
-
         try:
             user = request.user
         except User.DoesNotExist:
