@@ -11,7 +11,6 @@ from .serializer import ProductSerializer
 
 class ProductView(APIView):
     def get(self,request, product_id):
-        PageNumberPagination().page_size = 20
         try:
             product = Product.objects.get(product_seria_num=product_id)
         except Product.DoesNotExist:

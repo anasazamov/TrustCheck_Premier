@@ -81,6 +81,31 @@ class CreateProductAPI(APIView):
         result_page = paginator.paginate_queryset(created_products,request)
         serializer = ProductSerializer(result_page, many=True)
         return paginator.get_paginated_response(serializer.data)
+    
+    def put(self,request,pk):
+
+        try:
+            product = Product.objects.get(id=pk)
+            data = request.data
+        except Product.DoesNotExist:
+            return Response({"message":"bad request"},status=status.HTTP_400_BAD_REQUEST)
+        
+        if "name" in data.keys():
+            product.name = data.get("name")
+        if "description" in data.keys():
+            product.description = data.get("description")
+        if "price" in data.keys():
+            product.price = data.get("price")
+        if "end_date" in data.keys():
+            product.end_date = data.get("end_date")
+        product.save()
+        
+        serializer = ProductSerializer(product)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+        
+
+
+
         
     def delete(self,request: Request,pk=False):
 
