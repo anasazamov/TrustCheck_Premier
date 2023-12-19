@@ -77,7 +77,7 @@ class CreateProductAPI(APIView):
                 for product in created_products
             ]
 
-            CreateProduct.objects.bulk_create(create_for_CreateProduct)
+        CreateProduct.objects.bulk_create(create_for_CreateProduct)
         result_page = paginator.paginate_queryset(created_products,request)
         serializer = ProductSerializer(result_page, many=True)
         return paginator.get_paginated_response(serializer.data)
@@ -102,10 +102,6 @@ class CreateProductAPI(APIView):
         
         serializer = ProductSerializer(product)
         return Response(serializer.data,status=status.HTTP_200_OK)
-        
-
-
-
         
     def delete(self,request: Request,pk=False):
 
