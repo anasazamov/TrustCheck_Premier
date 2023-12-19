@@ -69,15 +69,18 @@ class CreateProductAPI(APIView):
                 for serial_number in product_serial_numbers
             ]
 
-            created_products = Product.objects.bulk_create(products_to_create)
+            created_products1 = Product.objects.bulk_create(products_to_create)
+            created_products = [product.save() for product in created_products1]
 
+        with transaction.atomic():
             create_for_CreateProduct = [
-                CreateProduct(user=user, product=product).save()
+                CreateProduct(user=user, product=product)
                 for product in created_products
             ]
 
-        CreateProduct.objects.bulk_create(create_for_CreateProduct)
-        result_page = paginator.paginate_queryset(created_products,request)
+
+
+        result_page = paginator.paginate_queryset(created_products1,request)
         serializer = ProductSerializer(result_page, many=True)
         return paginator.get_paginated_response(serializer.data)
     
