@@ -72,7 +72,7 @@ class CreateProductAPI(APIView):
             created_products = Product.objects.bulk_create(products_to_create)
 
             create_for_CreateProduct = [
-                CreateProduct(user=user, product=product.save())
+                CreateProduct(user=user, product=product).save()
                 for product in created_products
             ]
 
