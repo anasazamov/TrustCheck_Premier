@@ -51,7 +51,7 @@ class CreateProductAPI(APIView):
         made_in = data.get("made_in")
         description = data.get("description")
         end_date = data.get("end_date")
-        product_serial_num = data.get("product_seria_num")
+        product_seria_num = data.get("product_seria_num")
         how_many = data.get("how_many")
         created_products = []
 
@@ -65,7 +65,7 @@ class CreateProductAPI(APIView):
                     made_in=made_in,
                     description=description,
                     product_hash=serial_number,
-                    product_serial_num=product_serial_num,
+                    product_seria_num=product_seria_num,
                     end_date=end_date
                 )
                 for serial_number in product_serial_numbers

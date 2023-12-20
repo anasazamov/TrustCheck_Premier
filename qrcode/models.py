@@ -19,7 +19,7 @@ class Product(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     end_date = models.DateField()
     utilized = models.BooleanField(default=False)
-    utilized_date = models.DateField()
+    utilized_date = models.DateField(null=True)
 
     def save(self, *args, **kwargs):
         # Agar product_seria_num bo'sh bo'lsa, uni to'ldirish
