@@ -12,12 +12,14 @@ class Category(models.Model):
 class Product(models.Model):
 
     name = models.CharField(max_length=30)
-    product_seria_num = models.CharField(max_length=32,unique=True)
-    price = models.DecimalField(max_digits=10,decimal_places=2)
+    product_hash = models.CharField(max_length=32,unique=True)
+    product_seria_num = models.IntegerField()
+    made_in = models.CharField(max_length=30)
     description = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     end_date = models.DateField()
     utilized = models.BooleanField(default=False)
+    utilized_date = models.DateField()
 
     def save(self, *args, **kwargs):
         # Agar product_seria_num bo'sh bo'lsa, uni to'ldirish

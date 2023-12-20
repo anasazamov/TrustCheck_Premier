@@ -48,9 +48,10 @@ class CreateProductAPI(APIView):
             return Response({"message": "bad request"}, status=status.HTTP_400_BAD_REQUEST)
 
         name = data.get("name")
-        price = data.get("price")
+        made_in = data.get("made_in")
         description = data.get("description")
         end_date = data.get("end_date")
+        product_serial_num = data.get("product_seria_num")
         how_many = data.get("how_many")
         created_products = []
 
@@ -61,9 +62,10 @@ class CreateProductAPI(APIView):
             products_to_create = [
                 Product(
                     name=name,
-                    price=price,
+                    made_in=made_in,
                     description=description,
-                    product_seria_num=serial_number,
+                    product_hash=serial_number,
+                    product_serial_num=product_serial_num,
                     end_date=end_date
                 )
                 for serial_number in product_serial_numbers
@@ -100,6 +102,10 @@ class CreateProductAPI(APIView):
             product.price = data.get("price")
         if "end_date" in data.keys():
             product.end_date = data.get("end_date")
+        if "product_seria_num" in data.keys():
+            product.product_seria_num = data.get("product_seria_num")
+        if "made_in" in data.keys():
+            product.made_in = data.get("made_in")
         product.save()
         
         serializer = ProductSerializer(product)

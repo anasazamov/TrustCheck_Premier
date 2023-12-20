@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
+from django.utils import timezone
 from crm.models import UtilzedProduct
 from .models import Product
 from .serializer import ProductSerializer
@@ -33,12 +34,20 @@ class UserProductView(APIView):
             except Product.DoesNotExist:
                 return Response({'message': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
 
-            if not product.utilized:
-                product.utilized = True
-                utilezed = UtilzedProduct(product=product,user=user)
+            is_new = False
 
-            
-            serializer = ProductSerializer(product)
+            if not product.utilized:
+                is_new = True
+                serializer_is_new = ProductSerializer(product)
+                product.utilized = True
+                product.utilized_date = timezone.now()
+                product.save()
+                utilezed = UtilzedProduct.objects.create(product=product,user=user)
+
+            if is_new:
+                serializer = serializer_is_new
+            else:
+                serializer = ProductSerializer(product)
             return Response(serializer.data,status=status.HTTP_200_OK)
         
         else:
