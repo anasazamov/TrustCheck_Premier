@@ -8,7 +8,6 @@ from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
 from django.db import transaction
 from userverification.serializer import UserSerializer
-from django.utils import timezone
 from .serializer import *
 from md5_hash import sha256_hash
 from .models import *
@@ -25,6 +24,7 @@ class CreateProductAPI(APIView):
         if pk:
             try:
                 product: Product = Product.objects.get(pk=pk)
+                return Response(ProductSerializer(product).data,status=status.HTTP_200_OK)
             except Product.DoesNotExist:
                 return Response({"message":"not found"},status=status.HTTP_200_OK)
             
@@ -71,18 +71,16 @@ class CreateProductAPI(APIView):
                 for serial_number in product_serial_numbers
             ]
 
-            created_products1 = Product.objects.bulk_create(products_to_create)
-            created_products = [product.save() for product in created_products1]
-
+            created_products = Product.objects.bulk_create(products_to_create)
         with transaction.atomic():
             create_for_CreateProduct = [
                 CreateProduct(user=user, product=product)
                 for product in created_products
             ]
+            CreateProduct.objects.bulk_create(create_for_CreateProduct)
+            
 
-
-
-        result_page = paginator.paginate_queryset(created_products1,request)
+        result_page = paginator.paginate_queryset(created_products,request)
         serializer = ProductSerializer(result_page, many=True)
         return paginator.get_paginated_response(serializer.data)
     
@@ -119,8 +117,8 @@ class CreateProductAPI(APIView):
         else:
             return Response({"message":"bad request"},status=status.HTTP_400_BAD_REQUEST)
         
-        serializer = ProductSerializer(deleted)
-        return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
+        serializer = ProductSerializer(product)
+        return Response({"message":"product has been deleted","product":serializer.data}, status=status.HTTP_204_NO_CONTENT)
     
 
 class UtilizedProduct(APIView):
