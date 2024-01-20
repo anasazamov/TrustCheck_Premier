@@ -52,21 +52,25 @@
         {
             "id": 167967,
             "name": "1",
-            "product_seria_num": "c804dce280cf1f12b7fe4f5a79a19700e0ec5d187b9601ee21dbfd30eb802403",
-            "price": "1.00",
+            "product_hash": "c804dce280cf1f12b7fe4f5a79a19700e0ec5d187b9601ee21dbfd30eb802403",
+            "product_seria_num":1656465
+            "made_in": "uzbekistan",
             "description": "1",
             "created": "2023-12-17T11:02:48.166186+05:00",
             "end_date": "2023-12-12",
+            "utilized_date": "2023-12-12",
             "utilized": false
         },
         {
-            "id": 167968,
+            "id": 167967,
             "name": "1",
-            "product_seria_num": "9ae3b4a1f0cadbfcc88e3a1c6f64abd258a64f74b915730a0c0c7e560219b8aa",
-            "price": "1.00",
+            "product_hash": "c804dce280cf1f12b7fe4f5a79a19700e0ec5d187b9601ee21dbfd30eb802403",
+            "product_seria_num":1656465
+            "made_in": "uzbekistan",
             "description": "1",
-            "created": "2023-12-17T11:02:48.167186+05:00",
+            "created": "2023-12-17T11:02:48.166186+05:00",
             "end_date": "2023-12-12",
+            "utilized_date": "2023-12-12",
             "utilized": false
         },
        //...
@@ -89,12 +93,12 @@
   </ul>
 
   <pre><code>
-{
-  "name": "New Product",
-  "price": 24.99,
-  "description": "New Description",
-  "end_date":2024-12-01
-  "how_many": 3
+{   
+    "name": "Oil",
+    "made_in": "uzbekistan",
+    "description": "The best oil",
+    "end_date": "2023-12-12",
+    "product_seria_num": 4200126161
 }
   </code></pre>
 
@@ -112,13 +116,15 @@
     "previous": null,
     "results": [
         {
-            "id": 171770,
+            "id": 167967,
             "name": "1",
-            "product_seria_num": "f2b9f8552f768e1c240b316b31fe830239c4869ea26a4a47f6795d1b0d9b800f",
-            "price": "1.00",
+            "product_hash": "c804dce280cf1f12b7fe4f5a79a19700e0ec5d187b9601ee21dbfd30eb802403",
+            "product_seria_num":1656465
+            "made_in": "uzbekistan",
             "description": "1",
-            "created": "2023-12-18T21:26:52.695904+05:00",
+            "created": "2023-12-17T11:02:48.166186+05:00",
             "end_date": "2023-12-12",
+            "utilized_date": "2023-12-12",
             "utilized": false
         },
         //...
@@ -176,30 +182,37 @@
     "results":
 [
   {
-    "id": 1,
-    "product": {
-      "id": 1,
-      "name": "Product Name 1",
-      "price": 19.99,
-      "description": "Product Description 1",
-      // ...
-    },
+    "id": 1,{
+            "id": 167967,
+            "name": "1",
+            "product_hash": "c804dce280cf1f12b7fe4f5a79a19700e0ec5d187b9601ee21dbfd30eb802403",
+            "product_seria_num":1656465
+            "made_in": "uzbekistan",
+            "description": "1",
+            "created": "2023-12-17T11:02:48.166186+05:00",
+            "end_date": "2023-12-12",
+            "utilized_date": "2023-12-12",
+            "utilized": false
+        },
     "user": 1
   },
   {
-    "id": 2,
-    "product": {
-      "id": 2,
-      "name": "Product Name 2",
-      "price": 29.99,
-      "description": "Product Description 2",
-      // ...
-    },
+            "id": 167967,
+            "name": "1",
+            "product_hash": "c804dce280cf1f12b7fe4f5a79a19700e0ec5d187b9601ee21dbfd30eb802403",
+            "product_seria_num":1656465
+            "made_in": "uzbekistan",
+            "description": "1",
+            "created": "2023-12-17T11:02:48.166186+05:00",
+            "end_date": "2023-12-12",
+            "utilized_date": "2023-12-12",
+            "utilized": false
+        },
     "user": 1
   },
   // ...
 ]
-}
+
   </code></pre>
 
   <h3>Get All Users API</h3>
@@ -289,14 +302,16 @@
     {
         "id": 6103,
         "product": {
-            "id": 6086,
+            "id": 167967,
             "name": "1",
-            "product_seria_num": "1",
-            "price": "1.00",
+            "product_hash": "c804dce280cf1f12b7fe4f5a79a19700e0ec5d187b9601ee21dbfd30eb802403",
+            "product_seria_num":1656465
+            "made_in": "uzbekistan",
             "description": "1",
-            "created": "2023-12-12T04:31:58.643835+05:00",
+            "created": "2023-12-17T11:02:48.166186+05:00",
             "end_date": "2023-12-12",
-            "utilized": true
+            "utilized_date": "2023-12-12",
+            "utilized": false
         },
         "user": {
             "id": 2,
@@ -337,18 +352,19 @@
 
   <pre><code>
     {
-            "id": 6086,
+            "id": 167967,
             "name": "1",
-            "product_seria_num": "1",
-            "price": "1.00",
+            "product_hash": "c804dce280cf1f12b7fe4f5a79a19700e0ec5d187b9601ee21dbfd30eb802403",
+            "product_seria_num":1656465
+            "made_in": "uzbekistan",
             "description": "1",
-            "created": "2023-12-12T04:31:58.643835+05:00",
+            "created": "2023-12-17T11:02:48.166186+05:00",
             "end_date": "2023-12-12",
-            "utilized": true
-    }
-
+            "utilized_date": "2023-12-12",
+            "utilized": false
+        }
   </code></pre>
-<h1>TrustCheck Premier</h1>
+<h1>TrustCheck Premier App</h1>
 </body>
 
 </html>
