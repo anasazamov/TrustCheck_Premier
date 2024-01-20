@@ -18,6 +18,8 @@
     Bu dokumentatsiya <a href="https://www.djangoproject.com/" target="_blank">Django</a> loyihangizni tushunish va uni frontend qismiga ulash uchun muhim ma'lumotlar beradi.
   </p>
 
+  <h1>TrustCheck Premier Web</h1>
+
   <h2>Komponentlar</h2>
 
   <p>
@@ -346,7 +348,283 @@
     }
 
   </code></pre>
-
+<h1>TrustCheck Premier</h1>
 </body>
 
 </html>
+
+## Send Otp code
+
+register a phone number
+
+**`post /userverificatio/send-otp/`**
+
+**Reuest body**
+
+``` json
+{"phone_number":"+998XXXXXXXXX"}
+
+ ```
+
+**Response**
+
+``` json
+{"message": "OTP code sent successfully"}
+
+ ```
+
+## Verify Phone number
+
+verify phone number
+
+`post` **`/userverificatio/verify-otp/`**
+
+**Request body**
+
+``` json
+{
+"phone_number":"+998XXXXXXXXX",
+"otp_code":"XXXXXX"
+}
+
+ ```
+
+**Response**
+
+``` json
+{
+    "token": "{token}"
+}
+
+ ```
+
+## Get user info
+
+get **`/userverificatio/put-user/`**
+
+**Request Header**
+
+``` json
+{
+"Authorization":"Token {token}"
+"Content-Type":"application/json"
+}
+
+ ```
+
+**Response**
+
+``` json
+{
+    "first_name": "Name1",
+    "last_name": "Name2",
+    "phone_number": "+998XXXXXXXXX"
+}
+
+ ```
+
+## Edit name or add name
+
+`put` **`/userverificatio/put-user/`**
+
+**Request Header**
+
+``` json
+{
+"Authorization":"Token {token}"
+"Content-Type":"application/json"
+}
+
+ ```
+
+**Request Body**
+
+``` json
+{
+"first_name" : "Name1",
+"last_name": "Name2"
+}
+
+ ```
+
+**Response**
+
+``` json
+{
+    "first_name": "Anas2",
+    "last_name": "Azamov",
+    "phone_number": "+998990751735"
+}
+
+ ```
+
+## Edit phone number
+
+## `put` **`/userverificatio/put-user/`**
+
+**Request Header**
+
+``` json
+{
+"Authorization":"Token {token}"
+"Content-Type":"application/json"
+}
+
+ ```
+
+**Request Body**
+
+``` json
+{
+"phone_number": "+998XXXXXXXXX"
+}
+
+ ```
+
+**Response**
+
+``` json
+{
+    "first_name": "Anas2",
+    "last_name": "Azamov",
+    "phone_number": "+998990751735"
+}
+
+ ```
+
+## Change Phone number
+
+Confirmation of phone number change
+
+## `put` **`/userverificatio/put-user/`**
+
+**Request Header**
+
+``` json
+{
+"Authorization":"Token {token}"
+"Content-Type":"application/json"
+}
+
+ ```
+
+**Request Body**
+
+``` json
+{
+"phone_number": "+998XXXXXXXXX"
+}
+
+ ```
+
+**Response**
+
+``` json
+{
+    "phone_number": "+998990751735",
+    "otp_code": "XXXXXX"
+}
+
+ ```
+
+## Get product
+
+get info product
+
+`get` `/qrcode/products/`
+
+**Request Header**
+
+``` json
+{
+"Authorization":"Token {token}"
+"Content-Type":"application/json"
+}
+
+ ```
+
+**Response**
+
+``` json
+{
+    "id": 3315,
+    "name": "1",
+    "product_seria_num": 4200126161,
+    "made_in": "uzbekistan",
+    "description": "1",
+    "created": "2024-01-18T22:32:19.746470+05:00",
+    "end_date": "2023-12-12",
+    "utilized_date": null,
+    "utilized": false
+}
+
+ ```
+
+## Get all product
+
+get all info product
+
+`get` `/qrcode`
+
+**Request Header**
+
+``` json
+{
+"Authorization":"Token {token}"
+"Content-Type":"application/json"
+}
+
+ ```
+
+**Response**
+
+``` json
+[
+    {
+        "id": 3315,
+        "name": "1",
+        "product_seria_num": 4200126161,
+        "made_in": "uzbekistan",
+        "description": "1",
+        "created": "2024-01-18T22:32:19.746470+05:00",
+        "end_date": "2023-12-12",
+        "utilized_date": "2024-01-18",
+        "utilized": true
+    }
+// ...
+]
+
+ ```
+
+## Get product by id
+
+get info product by id
+
+`get` `/qrcode/id/`
+
+**Request Header**
+
+``` json
+{
+"Authorization":"Token {token}"
+"Content-Type":"application/json"
+}
+
+ ```
+
+**Response**
+
+``` json
+{
+    "id": 3315,
+    "name": "1",
+    "product_seria_num": 4200126161,
+    "made_in": "uzbekistan",
+    "description": "1",
+    "created": "2024-01-18T22:32:19.746470+05:00",
+    "end_date": "2023-12-12",
+    "utilized_date": null,
+    "utilized": false
+}
+
+ ```

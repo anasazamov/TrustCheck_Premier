@@ -37,7 +37,7 @@ class SendOTPAPI(APIView):
 
         # OTP kodi yuborish loyihasi (masalan, SMS yoki email orqali yuborish)
         send_sms_func(phone_number,otp_code)
-        return Response({'message': f'OTP kodi muvaffaqiyatli yuborildi'}, status=status.HTTP_200_OK)
+        return Response({'message': 'OTP code sent successfully'}, status=status.HTTP_200_OK)
 
 
 class VerifyOTPAPI(APIView):
@@ -101,7 +101,6 @@ class UserProfilePut(APIView):
         except ObjectDoesNotExist:
             return Response({"messaege":"Bad request"},status=status.HTTP_400_BAD_REQUEST)
         
-        #try:
         if "first_name" in data.keys() and len(data.keys()) == 1:  
             
             user.first_name = data["first_name"]
@@ -118,12 +117,12 @@ class UserProfilePut(APIView):
             user.last_name = data["last_name"]
             user.save()
 
-        elif "phone_number" in data.keys():
+        elif "phone_number" in data.keys() and len(data.keys())==1:
             otp = randint(100000,999999)
             update = UserProfile.objects.create(phone_number=data["phone_number"],otp_secret=otp)
             update.save()
 
-            return Response({"message":f"Otp kod muvaqqiyatli yuborildi {otp}"})
+            return Response({"message":f"Otp kod muvaqqiyatli yuborildi"})
         
         else:
             return Response({"message" : "Bad request"},status=status.HTTP_400_BAD_REQUEST)

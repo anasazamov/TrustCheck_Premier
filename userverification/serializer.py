@@ -14,7 +14,7 @@ class UserSerializer(serializers.ModelSerializer):
     def to_representation(self,instance):
 
         return {"first_name": instance.first_name,
-                "last_name": instance.first_name,
+                "last_name": instance.last_name,
                 "phone_number": instance.username}
 
 

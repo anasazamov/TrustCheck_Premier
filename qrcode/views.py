@@ -13,10 +13,10 @@ from .serializer import ProductSerializer
 class ProductView(APIView):
     def get(self,request, product_id):
         try:
-            product = Product.objects.get(product_seria_num=product_id)
+            product = Product.objects.get(product_hash=product_id)
         except Product.DoesNotExist:
             return Response({'message': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
-        
+
         serializer = ProductSerializer(product)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -24,13 +24,12 @@ class UserProductView(APIView):
 
     permission_classes = [IsAuthenticated]
 
-    def get(self,request: Request, product_id=None):
-        pagiantor = PageNumberPagination()
-        pagiantor.page_size = 20
-        if product_id:
+    def get(self,request: Request, product_hash=False):
+
+        if product_hash:
             try:
                 user: User = request.user
-                product = Product.objects.get(product_seria_num = product_id)            
+                product = Product.objects.get(product_hash = product_hash)
             except Product.DoesNotExist:
                 return Response({'message': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
 
@@ -49,22 +48,33 @@ class UserProductView(APIView):
             else:
                 serializer = ProductSerializer(product)
             return Response(serializer.data,status=status.HTTP_200_OK)
-        
+
         else:
             try:
                 user = request.user
-                utilized_allproduct: UtilzedProduct = UtilzedProduct.objects.filter(user=user)
-                products = [i.product for i in utilized_allproduct]
-                result_page = pagiantor.paginate_queryset(products)
-                serializer = ProductSerializer(result_page,many=True)
             except:
                 return Response({'message': 'not found'}, status=status.HTTP_404_NOT_FOUND)
-            
+            utilized_allproduct: UtilzedProduct = UtilzedProduct.objects.filter(user=user)
+            products = [i.product for i in utilized_allproduct]
+            serializer = ProductSerializer(products,many=True)
+
+
             return Response(serializer.data,status=status.HTTP_200_OK)
 
 
 
-    
+class UserProductView2(APIView):
 
-        
-        
+    permission_classes = [IsAuthenticated]
+
+    def get(self,request: Request, product_id):
+
+        try:
+            user: User = request.user
+            product = Product.objects.get(pk = product_id)
+        except Product.DoesNotExist:
+            return Response({'message': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = ProductSerializer(product)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
