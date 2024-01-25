@@ -373,7 +373,7 @@
 
 register a phone number
 
-**`post /userverificatio/send-otp/`**
+**`post /userverification/send-otp/`**
 
 **Reuest body**
 
@@ -393,7 +393,7 @@ register a phone number
 
 verify phone number
 
-`post` **`/userverificatio/verify-otp/`**
+`post` **`/userverification/verify-otp/`**
 
 **Request body**
 
@@ -416,7 +416,7 @@ verify phone number
 
 ## Get user info
 
-get **`/userverificatio/put-user/`**
+get **`/userverification/put-user/`**
 
 **Request Header**
 
@@ -441,7 +441,7 @@ get **`/userverificatio/put-user/`**
 
 ## Edit name or add name
 
-`put` **`/userverificatio/put-user/`**
+`put` **`/userverification/put-user/`**
 
 **Request Header**
 
@@ -476,7 +476,7 @@ get **`/userverificatio/put-user/`**
 
 ## Edit phone number
 
-## `put` **`/userverificatio/put-user/`**
+## `put` **`/userverification/put-user/`**
 
 **Request Header**
 
@@ -512,7 +512,7 @@ get **`/userverificatio/put-user/`**
 
 Confirmation of phone number change
 
-## `put` **`/userverificatio/put-user/`**
+## `put` **`/userverification/put-user/`**
 
 **Request Header**
 
