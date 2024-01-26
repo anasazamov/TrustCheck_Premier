@@ -35,7 +35,7 @@ class UserProductView(APIView):
 
             is_new = False
 
-            if not product.utilized:
+            if not product.utilized and not bool(UtilzedProduct.objects.get(product=product)):
                 is_new = True
                 serializer_is_new = ProductSerializer(product)
                 product.utilized = True
