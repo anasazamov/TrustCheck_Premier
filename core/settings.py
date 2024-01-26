@@ -24,9 +24,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-af!g9(420-x6wog2puhk2uao+yyxnt8&ie6xqeve5t3=m=!lp&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
+
+
 
 
 # Application definition
@@ -42,6 +44,7 @@ INSTALLED_APPS = [
     'crm.apps.CrmConfig',
     'userverification.apps.UserverificationConfig',
     'rest_framework.authtoken',
+    'corsheaders',
     "rest_framework"
 ]
 
@@ -50,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     #'django.middleware.csrf.CsrfViewMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -138,3 +142,9 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 200000
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+APPEND_SLASH = False
+
+# settings.py
+
+# CORS sozlamalari
+CORS_ALLOWED_ORIGINS = ["*"]
