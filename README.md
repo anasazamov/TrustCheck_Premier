@@ -10,12 +10,12 @@
 <body>
 <h1>Django Loyihasi Dokumentatsiyasi</h1>
 
-<h3>BASE_URL =  trustcheck.pythonanywhere.com</h3>
+<h2>BASE_URL =  trustcheck.pythonanywhere.com</h2>
 
   <h2>Django Loyihasi Dokumentatsiyasi</h2>
 
   <p>
-    Bu dokumentatsiya <a href="https://www.djangoproject.com/" target="_blank">Django</a> loyihangizni tushunish va uni frontend qismiga ulash uchun muhim ma'lumotlar beradi.
+    Bu dokumentatsiya <a href="https://www.djangoproject.com/" target="_blank">Django</a> loyihamni tushunish va uni frontend qismiga ulash uchun muhim ma'lumotlar beradi.
   </p>
 
   <h1>TrustCheck Premier Web</h1>
@@ -76,6 +76,36 @@
        //...
     ]
 }
+  </code></pre>
+  <h4>Get Products by ID</h4>
+
+  <ul>
+    <li><strong>Endpoint:</strong> <code>/api/create-product/<int:ID></code></li>
+    <li><strong>Method:</strong> GET</li>
+    <li><strong>Permissions:</strong> Session Authentication, Basic Authentication</li>
+  </ul>
+
+  <h5>Response</h5>
+
+  <ul>
+    <li><strong>Success Code:</strong> 200 OK</li>
+    <li><strong>Success Response:</strong></li>
+  </ul>
+
+  <pre><code>
+
+        {
+            "id": 167967,
+            "name": "1",
+            "product_hash": "c804dce280cf1f12b7fe4f5a79a19700e0ec5d187b9601ee21dbfd30eb802403",
+            "product_seria_num":1656465
+            "made_in": "uzbekistan",
+            "description": "1",
+            "created": "2023-12-17T11:02:48.166186+05:00",
+            "end_date": "2023-12-12",
+            "utilized_date": "2023-12-12",
+            "utilized": false
+        }
   </code></pre>
 
   <h4>Create Product</h4>
@@ -149,11 +179,16 @@
 
   <pre><code>
 {
-  "id": 3,
-  "name": "New Product",
-  "price": 24.99,
-  "description": "New Description",
-  // ...
+    "message": "product has been deleted",
+    "product": {
+        "id": null,
+        "name": "1",
+        "description": "1",
+        "created": "2024-01-18T22:32:19.746470+05:00",
+        "end_date": "2023-12-12",
+        "utilized": true,
+        "utilized_date": "2024-01-18"
+    }
 }
   </code></pre>
 
@@ -334,36 +369,7 @@
 }
   </code></pre>
 
-  <h3>Get info of product</h3>
 
-  <h4>Get Product</h4>
-
-  <ul>
-    <li><strong>Endpoint:</strong> <code>crm/products/<str:product_seria_num></code></li>
-    <li><strong>Method:</strong> GET</li>
-  </ul>
-
-  <h5>Response</h5>
-
-  <ul>
-    <li><strong>Success Code:</strong> 200 OK</li>
-    <li><strong>Success Response:</strong></li>
-  </ul>
-
-  <pre><code>
-    {
-            "id": 167967,
-            "name": "1",
-            "product_hash": "c804dce280cf1f12b7fe4f5a79a19700e0ec5d187b9601ee21dbfd30eb802403",
-            "product_seria_num":1656465
-            "made_in": "uzbekistan",
-            "description": "1",
-            "created": "2023-12-17T11:02:48.166186+05:00",
-            "end_date": "2023-12-12",
-            "utilized_date": "2023-12-12",
-            "utilized": false
-        }
-  </code></pre>
 <h1>TrustCheck Premier App</h1>
 </body>
 
