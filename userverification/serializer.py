@@ -6,6 +6,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
         fields = ["phone_number"]
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -16,6 +17,3 @@ class UserSerializer(serializers.ModelSerializer):
         return {"first_name": instance.first_name,
                 "last_name": instance.last_name,
                 "phone_number": instance.username}
-
-
-    

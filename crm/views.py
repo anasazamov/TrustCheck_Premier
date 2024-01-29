@@ -1,5 +1,5 @@
 from rest_framework import status
-from rest_framework.request import Request 
+from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.pagination import PageNumberPagination
@@ -9,15 +9,17 @@ from django.contrib.auth.models import User
 from django.db import transaction
 from userverification.serializer import UserSerializer
 from .serializer import *
+from qrcode.serializer import ProductSerializerForAdmin
 from md5_hash import sha256_hash
 from .models import *
+from django.db import transaction
 from qrcode.models import Product
 
 class CreateProductAPI(APIView):
 
     authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
-    
+
     def get(self, request: Request, pk=False):
         paginator = PageNumberPagination()
         paginator.page_size = 100
@@ -27,63 +29,53 @@ class CreateProductAPI(APIView):
                 return Response(ProductSerializer(product).data,status=status.HTTP_200_OK)
             except Product.DoesNotExist:
                 return Response({"message":"not found"},status=status.HTTP_200_OK)
-            
-            serializer = ProductSerializer(product)
+
+            serializer = ProductSerializerForAdmin(product)
             return Response(serializer.data)
-        
+
         else:
             products = Product.objects.all()
             result_page = paginator.paginate_queryset(products,request)
-            serializer = ProductSerializer(result_page,many=True)
+            serializer = ProductSerializerForAdmin(result_page,many=True)
             return paginator.get_paginated_response(serializer.data)
-        
+
     @transaction.atomic
     def post(self, request: Request):
-        paginator = PageNumberPagination()
-        paginator.page_size = 100
-        try:
-            user: User = request.user
-            data = request.data
-        except:
+        user = request.user
+
+        if not user:
             return Response({"message": "bad request"}, status=status.HTTP_400_BAD_REQUEST)
 
+        data = request.data
         name = data.get("name")
         made_in = data.get("made_in")
         description = data.get("description")
         end_date = data.get("end_date")
         product_seria_num = data.get("product_seria_num")
-        how_many = data.get("how_many")
-        created_products = []
 
-        # Generate serial numbers for all products outside the loop
-        product_serial_numbers = [sha256_hash(sha256_hash(sha256_hash(str(i).encode('utf-8')))) for i in range(Product.objects.count() + 1, Product.objects.count() + how_many + 1)]
+        try:
+            product_count = Product.objects.count()
+            product_hash = sha256_hash(sha256_hash(str(product_count + 1).encode('utf-8')))
 
-        with transaction.atomic():
-            products_to_create = [
-                Product(
+            with transaction.atomic():
+                product = Product.objects.create(
                     name=name,
                     made_in=made_in,
                     description=description,
-                    product_hash=serial_number,
+                    product_hash=product_hash,
                     product_seria_num=product_seria_num,
                     end_date=end_date
                 )
-                for serial_number in product_serial_numbers
-            ]
 
-            created_products = Product.objects.bulk_create(products_to_create)
-        with transaction.atomic():
-            create_for_CreateProduct = [
-                CreateProduct(user=user, product=product)
-                for product in created_products
-            ]
-            CreateProduct.objects.bulk_create(create_for_CreateProduct)
-            
+                create_product = CreateProduct.objects.create(user=user, product=product)
 
-        result_page = paginator.paginate_queryset(created_products,request)
-        serializer = ProductSerializer(result_page, many=True)
-        return paginator.get_paginated_response(serializer.data)
-    
+            serializer = ProductSerializerForAdmin(product)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        except Exception as e:
+            return Response({"message": f"Error: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
     def put(self,request,pk):
 
         try:
@@ -91,24 +83,23 @@ class CreateProductAPI(APIView):
             data = request.data
         except Product.DoesNotExist:
             return Response({"message":"bad request"},status=status.HTTP_400_BAD_REQUEST)
-        
+
         if "name" in data.keys():
             product.name = data.get("name")
         if "description" in data.keys():
             product.description = data.get("description")
-        if "price" in data.keys():
-            product.price = data.get("price")
+
         if "end_date" in data.keys():
             product.end_date = data.get("end_date")
         if "product_seria_num" in data.keys():
             product.product_seria_num = data.get("product_seria_num")
         if "made_in" in data.keys():
             product.made_in = data.get("made_in")
-        product.save()
-        
-        serializer = ProductSerializer(product)
+        product.save(force_insert=False,force_update=True)
+
+        serializer = ProductSerializerForAdmin(product)
         return Response(serializer.data,status=status.HTTP_200_OK)
-        
+
     def delete(self,request: Request,pk=False):
 
         if pk:
@@ -116,10 +107,10 @@ class CreateProductAPI(APIView):
             deleted = product.delete()
         else:
             return Response({"message":"bad request"},status=status.HTTP_400_BAD_REQUEST)
-        
+
         serializer = ProductSerializer(product)
         return Response({"message":"product has been deleted","product":serializer.data}, status=status.HTTP_204_NO_CONTENT)
-    
+
 
 class UtilizedProduct(APIView):
 
@@ -132,7 +123,7 @@ class UtilizedProduct(APIView):
         result_page = paginator.paginate_queryset(utilized,request)
         serializer = UtilzedProductSerializer(result_page,many=True)
         return paginator.get_paginated_response(serializer.data)
-    
+
 class CreateProductTable(APIView):
 
     authentication_classes = [BasicAuthentication]
@@ -145,7 +136,7 @@ class CreateProductTable(APIView):
         result_page = paginator.paginate_queryset(created_product,request)
         serializer = CreateProductSerializer(result_page,many=True)
         return paginator.get_paginated_response(serializer.data)
-    
+
 class GetAllUser(APIView):
 
     authentication_classes = [BasicAuthentication]

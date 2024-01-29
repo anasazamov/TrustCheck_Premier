@@ -35,19 +35,25 @@ class UserProductView(APIView):
 
             is_new = False
 
-            if not product.utilized and not bool(UtilzedProduct.objects.get(product=product)):
+            try:
+                utilezed = UtilzedProduct.objects.get(product=product)
+                is_there=True
+            except UtilzedProduct.DoesNotExist:
+                is_there=False
+
+            if (not product.utilized) and (not is_there) :
+                serializer_is_new = ProductSerializer(product).data
                 is_new = True
-                serializer_is_new = ProductSerializer(product)
                 product.utilized = True
-                product.utilized_date = timezone.now()
+                product.utilized_date = timezone.now().date()
                 product.save()
                 utilezed = UtilzedProduct.objects.create(product=product,user=user)
 
             if is_new:
                 serializer = serializer_is_new
             else:
-                serializer = ProductSerializer(product)
-            return Response(serializer.data,status=status.HTTP_200_OK)
+                serializer = ProductSerializer(product).data
+            return Response(serializer,status=status.HTTP_200_OK)
 
         else:
             try:

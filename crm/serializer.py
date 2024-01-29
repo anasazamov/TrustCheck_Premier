@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from qrcode.models import Product
 from .models import *
 from qrcode.serializer import ProductSerializer
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

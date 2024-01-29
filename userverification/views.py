@@ -135,7 +135,7 @@ class UserProfilePut(APIView):
         except:
             return Response({"message":"Bad request"},status=status.HTTP_400_BAD_REQUEST)
 
-        second = 301
+        second = 30001
         if userprofile.get_time_difference() > second:
             userprofile.delete()
             return Response({'message': 'OTP kod vaqti tugadi'})
