@@ -25,3 +25,7 @@ class UtilzedProductSerializer(serializers.ModelSerializer):
         fields = ['id', 'product', 'user']
 
 
+class LoginSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["username","first_name"]

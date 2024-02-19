@@ -1,8 +1,9 @@
 from django.urls import path
-from .views import CreateProductAPI, UtilizedProduct, CreateProductTable, GetAllUser
+from .views import CreateProductAPI, UtilizedProduct, CreateProductTable, GetAllUser,Login
 
 urlpatterns = [
     path('create-product/', CreateProductAPI.as_view(), name='create-product'),
+    path('login/', Login.as_view(), name='Login'),
     path('create-product/<int:pk>', CreateProductAPI.as_view(), name='get-update-delete-product'),
     path('utilized-product', UtilizedProduct.as_view(), name='get-utilized-product'),
     path('create-product-table', CreateProductTable.as_view(), name='get-create-product-table'),

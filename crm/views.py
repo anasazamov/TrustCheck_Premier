@@ -6,6 +6,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
 from django.db import transaction
 from userverification.serializer import UserSerializer
 from .serializer import *
@@ -15,9 +16,19 @@ from .models import *
 from django.db import transaction
 from qrcode.models import Product
 
-class CreateProductAPI(APIView):
-
+class Login(APIView):
     authentication_classes = [BasicAuthentication]
+
+
+    def post(self,request: Request):
+    
+        user = request.user
+        token = Token.objects.get(user=user)
+
+        return Response({'token': token.key})
+
+
+class CreateProductAPI(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request: Request, pk=False):
@@ -113,9 +124,8 @@ class CreateProductAPI(APIView):
 
 
 class UtilizedProduct(APIView):
-
-    authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
+
     def get(self,request: Request):
         paginator = PageNumberPagination()
         paginator.page_size = 100

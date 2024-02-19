@@ -147,4 +147,4 @@ APPEND_SLASH = False
 # settings.py
 
 # CORS sozlamalari
-CORS_ALLOWED_ORIGINS = ["*"]
+CORS_ALLOWED_ORIGINS = ["https://my.uz"]
