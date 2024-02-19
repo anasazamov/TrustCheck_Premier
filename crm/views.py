@@ -23,7 +23,7 @@ class Login(APIView):
     def post(self,request: Request):
     
         user = request.user
-        token = Token.objects.get(user=user)
+        token,create = Token.objects.get_or_create(user=user)
 
         return Response({'token': token.key})
 
