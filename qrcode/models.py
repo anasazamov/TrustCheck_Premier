@@ -13,7 +13,7 @@ class Category(models.Model):
 class Product(models.Model):
 
     name = models.CharField(max_length=30)
-    product_hash = models.CharField(max_length=50)
+    product_hash = models.CharField(max_length=80)
     product_seria_num = models.IntegerField()
     made_in = models.CharField(max_length=30)
     description = models.TextField()
@@ -22,10 +22,7 @@ class Product(models.Model):
     utilized = models.BooleanField(default=False)
     utilized_date = models.DateField(null=True)
 
-    def save(self, force_insert: bool = ..., force_update: bool = ..., using: str | None = ..., update_fields: Iterable[str] | None = ...) -> None:
-        if not self.product_hash:
-            self.product_hash = sha256_hash(Product.objects.last())
-        return super().save(force_insert, force_update, using, update_fields)
+
 
     def __str__(self)->str:
 

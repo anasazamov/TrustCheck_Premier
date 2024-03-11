@@ -53,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     #'django.middleware.csrf.CsrfViewMiddleware',
+
     'corsheaders.middleware.CorsMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -78,10 +79,13 @@ TEMPLATES = [
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
+    'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
-    ],'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 100
+
 
 }
 
@@ -147,4 +151,4 @@ APPEND_SLASH = False
 # settings.py
 
 # CORS sozlamalari
-CORS_ALLOWED_ORIGINS = ["https://my.uz"]
+CORS_ALLOWED_ORIGINS = ["*","http://localhost:3000","https://admin-panel-git-develop-asliddin351.vercel.app","https://vercel.app","http://127.0.0.1:3000","http://127.0.0.1","http://admin-panel-d9sjg8dso-asliddin351.vercel.app"]

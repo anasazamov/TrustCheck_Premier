@@ -11,14 +11,15 @@ from .models import Product
 from .serializer import ProductSerializer
 
 class ProductView(APIView):
-    def get(self,request, product_id):
-        try:
-            product = Product.objects.get(product_hash=product_id)
-        except Product.DoesNotExist:
-            return Response({'message': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
+    pass
+#     def get(self,request, product_id):
+#         try:
+#             product = Product.objects.get(product_hash=product_id)
+#         except Product.DoesNotExist:
+#             return Response({'message': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        serializer = ProductSerializer(product)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+#         serializer = ProductSerializer(product)
+#         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class UserProductView(APIView):
 

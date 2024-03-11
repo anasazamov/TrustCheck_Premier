@@ -21,11 +21,11 @@ class Login(APIView):
 
 
     def post(self,request: Request):
-    
+
         user = request.user
         token,create = Token.objects.get_or_create(user=user)
 
-        return Response({'token': token.key})
+        return Response({'token': token.key,'first_name':user.first_name,'last_name':user.last_name})
 
 
 class CreateProductAPI(APIView):
@@ -52,39 +52,37 @@ class CreateProductAPI(APIView):
 
     @transaction.atomic
     def post(self, request: Request):
+
         user = request.user
-
-        if not user:
-            return Response({"message": "bad request"}, status=status.HTTP_400_BAD_REQUEST)
-
         data = request.data
+
         name = data.get("name")
         made_in = data.get("made_in")
         description = data.get("description")
         end_date = data.get("end_date")
-        product_seria_num = data.get("product_seria_num")
+        from_ = data.get("from")
+        up_to = data.get("up_to")
+        ls = []
 
-        try:
-            product_count = Product.objects.count()
+        product_count = Product.objects.count()
+        while from_ <= up_to:
+
             product_hash = sha256_hash(sha256_hash(str(product_count + 1).encode('utf-8')))
+            product = Product.objects.create(
+                name=name,
+                made_in=made_in,
+                description=description,
+                product_hash=product_hash,
+                product_seria_num=from_,
+                end_date=end_date
+            )
+            from_ += 1
+            product_count += 1
+            ls.append(product)
+            CreateProduct.objects.create(user=user,product=product)
 
-            with transaction.atomic():
-                product = Product.objects.create(
-                    name=name,
-                    made_in=made_in,
-                    description=description,
-                    product_hash=product_hash,
-                    product_seria_num=product_seria_num,
-                    end_date=end_date
-                )
-
-                create_product = CreateProduct.objects.create(user=user, product=product)
-
-            serializer = ProductSerializerForAdmin(product)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-        except Exception as e:
-            return Response({"message": f"Error: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        serializer = ProductSerializerForAdmin(ls,many = True)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
     def put(self,request,pk):
@@ -120,7 +118,7 @@ class CreateProductAPI(APIView):
             return Response({"message":"bad request"},status=status.HTTP_400_BAD_REQUEST)
 
         serializer = ProductSerializer(product)
-        return Response({"message":"product has been deleted","product":serializer.data}, status=status.HTTP_204_NO_CONTENT)
+        return Response({"message":204}, status=status.HTTP_204_NO_CONTENT)
 
 
 class UtilizedProduct(APIView):
@@ -136,7 +134,6 @@ class UtilizedProduct(APIView):
 
 class CreateProductTable(APIView):
 
-    authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self,request: Request):
@@ -149,7 +146,6 @@ class CreateProductTable(APIView):
 
 class GetAllUser(APIView):
 
-    authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self,request):
@@ -159,3 +155,64 @@ class GetAllUser(APIView):
         result_page = paginator.paginate_queryset(user,request)
         serializer = UserSerializer(result_page,many=True)
         return paginator.get_paginated_response(serializer.data)
+
+class SearchProduct(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self,request: Request):
+        data = request.query_params
+
+        if not data :
+            return Response({"message":"bad request"},status=status.HTTP_400_BAD_REQUEST)
+        try:
+            searched_produdct = Product.objects.filter(name__contains=data.get("name",""),product_seria_num__contains=data.get("product_seria_num",""),made_in__contains=data.get("made_in",""),id__contains = data.get("id",""))
+        except Product.DoesNotExist:
+            return Response({"message":"not found products"},status=status.HTTP_404_NOT_FOUND)
+        serializer = ProductSerializerForAdmin(searched_produdct,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
+class SearchCreateProduct(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self,request: Request):
+        data = request.query_params
+
+        if not data:
+            return Response({"message":"bad request"},status=status.HTTP_400_BAD_REQUEST)
+        try:
+            searched_produdct = Product.objects.filter(name__contains=data.get("name",""),product_seria_num__contains=data.get("product_seria_num",""),made_in__contains=data.get("made_in",""))
+            user = User.objects.filter(username__contains=data.get("username",""),first_name__contains = data.get("first_name",""),last_name__contains=data.get("last_name",""))
+        except Product.DoesNotExist:
+            return Response({"message":"not found"},status=status.HTTP_404_NOT_FOUND)
+        create_table = CreateProduct.objects.filter(user__in=user,product__in=searched_produdct)
+        serializer = CreateProductSerializer(create_table,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
+class SearchUtilizedProduct(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self,request: Request):
+        data = request.query_params
+
+        if not data:
+            return Response({"message":"bad request"},status=status.HTTP_400_BAD_REQUEST)
+        try:
+            searched_produdct = Product.objects.filter(name__contains=data.get("name",""),product_seria_num__contains=data.get("product_seria_num",""),made_in__contains=data.get("made_in",""),pk__contains = data.get("id",""))
+            user = User.objects.filter(username__contains=data.get("username",""),first_name__contains = data.get("first_name",""),last_name__contains=data.get("last_name"))
+            create_table = UtilzedProduct.objects.filter(user__in=user,product__in=searched_produdct)
+        except Product.DoesNotExist:
+            return Response({"message":"not found"},status=status.HTTP_404_NOT_FOUND)
+
+        serializer = CreateProductSerializer(create_table,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
+class SearchUser(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self,request: Request):
+        data = request.query_params
+
+        if not data:
+            return Response({"message":"bad request"},status=status.HTTP_400_BAD_REQUEST)
+        try:
+            searched_produdct = User.objects.filter(first_name__contains=data.get("first_name",""),last_name__contains=data.get("last_name",""),username__contains=data.get("phone_number",""),pk__contains = data.get("id",""))
+        except Product.DoesNotExist:
+            return Response({"message":"not found products"},status=status.HTTP_404_NOT_FOUND)
+        serializer = UserSerializer(searched_produdct,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
